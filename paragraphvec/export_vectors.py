@@ -7,22 +7,22 @@ import torch
 
 from paragraphvec.data import load_dataset
 from paragraphvec.models import DM, DBOW
-from paragraphvec.utils import DATA_DIR, MODELS_DIR
+from paragraphvec.utils import MODELS_DIR
 
 
-def start(data_file_name, model_file_name):
+def start(data_file_path, model_file_name):
     """Saves trained paragraph vectors to a csv file in the *data* directory.
 
     Parameters
     ----------
     data_file_name: str
-        Name of a file in the *data* directory that was used during training.
+        Full path of a data file that was used during training.
 
     model_file_name: str
         Name of a file in the *models* directory (a model trained on
         the *data_file_name* dataset).
     """
-    dataset = load_dataset(data_file_name)
+    dataset = load_dataset(data_file_path)
 
     vec_dim = int(re.search('_vecdim\.(\d+)_', model_file_name).group(1))
 
@@ -32,7 +32,7 @@ def start(data_file_name, model_file_name):
         num_docs=len(dataset),
         num_words=len(dataset.fields['text'].vocab) - 1)
 
-    _write_to_file(data_file_name, model_file_name, model, vec_dim)
+    _write_to_file(data_file_path, model_file_name, model, vec_dim)
 
 
 def _load_model(model_file_name, vec_dim, num_docs, num_words):
@@ -59,10 +59,11 @@ def _load_model(model_file_name, vec_dim, num_docs, num_words):
     return model
 
 
-def _write_to_file(data_file_name, model_file_name, model, vec_dim):
+def _write_to_file(data_file_path, model_file_name, model, vec_dim):
     result_lines = []
+    DATA_DIR = '/'.join(data_file_path.split('/')[:-1])
 
-    with open(join(DATA_DIR, data_file_name)) as f:
+    with open(data_file_path) as f:
         reader = csv.reader(f)
 
         for i, line in enumerate(reader):

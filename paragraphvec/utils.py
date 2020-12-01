@@ -6,23 +6,22 @@ import torch
 
 _root_dir = dirname(dirname(__file__))
 
-DATA_DIR = join(_root_dir, 'data')
 MODELS_DIR = join(_root_dir, 'models')
 _DIAGNOSTICS_DIR = join(_root_dir, 'diagnostics')
 
-_DM_MODEL_NAME = ("{:s}_model.{:s}.{:s}_contextsize.{:d}_numnoisewords.{:d}"
-                  "_vecdim.{:d}_batchsize.{:d}_lr.{:f}_epoch.{:d}_loss.{:f}"
+_DM_MODEL_NAME = ("{:s}_model.{:s}_contextsize.{:d}_numnoisewords.{:d}"
+                  "_vecdim.{:d}_batchsize.{:d}_lr.{:f}"
                   ".pth.tar")
 _DM_DIAGNOSTIC_FILE_NAME = ("{:s}_model.{:s}.{:s}_contextsize.{:d}"
                             "_numnoisewords.{:d}_vecdim.{:d}_batchsize.{:d}"
                             "_lr.{:f}.csv")
 _DBOW_MODEL_NAME = ("{:s}_model.{:s}_numnoisewords.{:d}_vecdim.{:d}"
-                    "_batchsize.{:d}_lr.{:f}_epoch.{:d}_loss.{:f}.pth.tar")
+                    "_batchsize.{:d}_lr.{:f}.pth.tar")
 _DBOW_DIAGNOSTIC_FILE_NAME = ("{:s}_model.{:s}_numnoisewords.{:d}_vecdim.{:d}"
                               "_batchsize.{:d}_lr.{:f}.csv")
 
 
-def save_training_state(data_file_name,
+def save_training_state(data_file_path,
                         model_ver,
                         vec_combine_method,
                         context_size,
@@ -46,6 +45,7 @@ def save_training_state(data_file_name,
     -------
         str representing a model file path from the previous epoch
     """
+    data_file_name = data_file_path.split('/')[-1]
     if generate_plot:
         # save the loss value for a diagnostic plot
         if model_ver_is_dbow:
@@ -95,21 +95,16 @@ def save_training_state(data_file_name,
             num_noise_words,
             vec_dim,
             batch_size,
-            lr,
-            epoch_i + 1,
-            loss)
+            lr)
     else:
         model_file_name = _DM_MODEL_NAME.format(
             data_file_name[:-4],
             model_ver,
-            vec_combine_method,
             context_size,
             num_noise_words,
             vec_dim,
             batch_size,
-            lr,
-            epoch_i + 1,
-            loss)
+            lr)
 
     model_file_path = join(MODELS_DIR, model_file_name)
 

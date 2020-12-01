@@ -10,14 +10,10 @@ import torch
 from numpy.random import choice
 from torchtext.data import Field, TabularDataset
 
-from paragraphvec.utils import DATA_DIR
-
-
-def load_dataset(file_name):
-    """Loads contents from a file in the *data* directory into a
+def load_dataset(file_path):
+    """Loads contents from a data file into a
     torchtext.data.TabularDataset instance.
     """
-    file_path = join(DATA_DIR, file_name)
     text_field = Field(pad_token=None, tokenize=_tokenize_str)
 
     dataset = TabularDataset(

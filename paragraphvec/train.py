@@ -11,7 +11,7 @@ from paragraphvec.models import DM, DBOW
 from paragraphvec.utils import save_training_state
 
 
-def start(data_file_name,
+def start(data_file_path,
           num_noise_words,
           vec_dim,
           num_epochs,
@@ -29,8 +29,8 @@ def start(data_file_name,
 
     Parameters
     ----------
-    data_file_name: str
-        Name of a file in the *data* directory.
+    data_file_path: str
+        Full path of data file.
 
     model_ver: str, one of ('dm', 'dbow'), default='dbow'
         Version of the model as proposed by Q. V. Le et al., Distributed
@@ -92,7 +92,7 @@ def start(data_file_name,
         if context_size <= 0:
             raise ValueError("Context size must be positive when using dm")
 
-    dataset = load_dataset(data_file_name)
+    dataset = load_dataset(data_file_path)
     nce_data = NCEData(
         dataset,
         batch_size,
@@ -103,7 +103,7 @@ def start(data_file_name,
     nce_data.start()
 
     try:
-        _run(data_file_name, dataset, nce_data.get_generator(), len(nce_data),
+        _run(data_file_path, dataset, nce_data.get_generator(), len(nce_data),
              nce_data.vocabulary_size(), context_size, num_noise_words, vec_dim,
              num_epochs, batch_size, lr, model_ver, vec_combine_method,
              save_all, generate_plot, model_ver_is_dbow)
@@ -111,7 +111,7 @@ def start(data_file_name,
         nce_data.stop()
 
 
-def _run(data_file_name,
+def _run(data_file_path,
          dataset,
          data_generator,
          num_batches,
@@ -184,7 +184,7 @@ def _run(data_file_name,
         }
 
         prev_model_file_path = save_training_state(
-            data_file_name,
+            data_file_path,
             model_ver,
             vec_combine_method,
             context_size,
