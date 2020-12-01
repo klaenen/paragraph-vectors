@@ -5,9 +5,9 @@ from os.path import join
 import fire
 import torch
 
-from paragraphvec.data import load_dataset
-from paragraphvec.models import DM, DBOW
-from paragraphvec.utils import MODELS_DIR
+from doc2vec.paragraphvec.data import load_dataset
+from doc2vec.paragraphvec.models import DM, DBOW
+from doc2vec.paragraphvec.utils import MODELS_DIR
 
 
 def start(data_file_path, model_file_name):

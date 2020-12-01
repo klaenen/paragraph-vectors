@@ -5,10 +5,10 @@ import fire
 import torch
 from torch.optim import Adam
 
-from paragraphvec.data import load_dataset, NCEData
-from paragraphvec.loss import NegativeSampling
-from paragraphvec.models import DM, DBOW
-from paragraphvec.utils import save_training_state
+from doc2vec.paragraphvec.data import load_dataset, NCEData
+from doc2vec.paragraphvec.loss import NegativeSampling
+from doc2vec.paragraphvec.models import DM, DBOW
+from doc2vec.paragraphvec.utils import save_training_state
 
 
 def start(data_file_path,
