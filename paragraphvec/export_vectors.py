@@ -67,18 +67,13 @@ def _write_to_file(data_file_path, model_file_name, model, vec_dim):
         reader = csv.reader(f)
 
         for i, line in enumerate(reader):
-            # skip text
-            print('LINE IN DATA FILE: ', line)
-            result_line = line[1:]
-            print('RESULT LINE BEGIN: ', line[1:])
+            # print(line)
             if i == 0:
                 # header line
-                result_line += ["d{:d}".format(x) for x in range(vec_dim)]
-                print('RESULT LINE END: ', result_line)
+                result_line = ["d{:d}".format(x) for x in range(vec_dim)]
             else:
                 vector = model.get_paragraph_vector(i - 1)
-                result_line += [str(x) for x in vector]
-                print('RESULT LINE END: ', result_line)
+                result_line = [str(x) for x in vector]
 
             result_lines.append(result_line)
 
