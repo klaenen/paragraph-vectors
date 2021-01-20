@@ -10,7 +10,7 @@ import torch
 from numpy.random import choice
 from torchtext.data import Field, TabularDataset
 
-def load_dataset(file_path):
+def load_dataset(file_path, kwargs):
     """Loads contents from a data file into a
     torchtext.data.TabularDataset instance.
     """
@@ -22,7 +22,7 @@ def load_dataset(file_path):
         fields=[('text', text_field)],
         skip_header=True)
 
-    text_field.build_vocab(dataset)
+    text_field.build_vocab(dataset, kwargs)
     return dataset
 
 

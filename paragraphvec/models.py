@@ -14,7 +14,7 @@ class DM(nn.Module):
         Number of documents in a dataset.
 
     num_words: int
-        Number of distinct words in a daset (i.e. vocabulary size).
+        Number of distinct words in a dataset (i.e. vocabulary size).
     """
     def __init__(self, vec_dim, num_docs, num_words):
         super(DM, self).__init__()

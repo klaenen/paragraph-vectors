@@ -19,6 +19,7 @@ def start(data_file_path,
           lr,
           model_ver='dbow',
           context_size=0,
+          min_freq=5,
           vec_combine_method='sum',
           save_all=False,
           generate_plot=True,
@@ -46,6 +47,9 @@ def start(data_file_path,
         (i.e. how many words left and right are regarded as context). When
         model_ver='dm' context_size has to greater than 0, when
         model_ver='dbow' context_size has to be 0.
+
+    num_freq: int
+        The minimum frequency needed to include a token in the vocabulary.
 
     num_noise_words: int
         Number of noise words to sample from the noise distribution.
@@ -92,7 +96,8 @@ def start(data_file_path,
         if context_size <= 0:
             raise ValueError("Context size must be positive when using dm")
 
-    dataset = load_dataset(data_file_path)
+    kwargs = {'min_freq': min_freq}
+    dataset = load_dataset(data_file_path, kwargs)
     nce_data = NCEData(
         dataset,
         batch_size,
