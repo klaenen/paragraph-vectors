@@ -24,7 +24,7 @@ def start(data_file_path,
           save_all=False,
           generate_plot=True,
           max_generated_batches=5,
-          num_workers=1):
+          gpu=0):
     """Trains a new model. The latest checkpoint and the best performing
     model are saved in the *models* directory.
 
@@ -78,9 +78,8 @@ def start(data_file_path,
     max_generated_batches: int, default=5
         Maximum number of pre-generated batches.
 
-    num_workers: int, default=1
-        Number of batch generator jobs to run in parallel. If value is set
-        to -1 number of machine cores are used.
+    gpu: int, default=0
+        Which gpu to use.
     """
     if model_ver not in ('dm', 'dbow'):
         raise ValueError("Invalid version of the model")
@@ -103,15 +102,14 @@ def start(data_file_path,
         batch_size,
         context_size,
         num_noise_words,
-        max_generated_batches,
-        num_workers)
+        max_generated_batches)
     nce_data.start()
 
     try:
         _run(data_file_path, dataset, nce_data.get_generator(), len(nce_data),
              nce_data.vocabulary_size(), context_size, num_noise_words, vec_dim,
              num_epochs, batch_size, lr, model_ver, vec_combine_method,
-             save_all, generate_plot, model_ver_is_dbow)
+             save_all, generate_plot, model_ver_is_dbow, gpu)
     except KeyboardInterrupt:
         nce_data.stop()
 
@@ -131,7 +129,12 @@ def _run(data_file_path,
          vec_combine_method,
          save_all,
          generate_plot,
-         model_ver_is_dbow):
+         model_ver_is_dbow,
+         gpu):
+
+    if torch.cuda.is_available():
+        torch.cuda.set_device(gpu)
+        print(torch.cuda.current_device())
 
     if model_ver_is_dbow:
         model = DBOW(vec_dim, num_docs=len(dataset), num_words=vocabulary_size)

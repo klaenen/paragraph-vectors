@@ -73,13 +73,13 @@ class NCEData(object):
     max_size: int
         Maximum number of pre-generated batches.
 
-    num_workers: int
+    num_workers: int, default=1
         Number of jobs to run in parallel. If value is set to -1, total number
         of machine CPUs is used.
     """
     # code inspired by parallel generators in https://github.com/fchollet/keras
     def __init__(self, dataset, batch_size, context_size,
-                 num_noise_words, max_size, num_workers):
+                 num_noise_words, max_size, num_workers=1):
         self.max_size = max_size
 
         self.num_workers = num_workers if num_workers != -1 else os.cpu_count()
