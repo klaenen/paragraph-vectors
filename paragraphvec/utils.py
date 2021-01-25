@@ -45,12 +45,12 @@ def save_training_state(data_file_path,
     -------
         str representing a model file path from the previous epoch
     """
-    data_file_name = data_file_path.split('/')[-1]
+    dataset = '{}_{}'.format(data_file_path.split('/')[-2], data_file_path.split('/')[-1][:-4])
     if generate_plot:
         # save the loss value for a diagnostic plot
         if model_ver_is_dbow:
             diagnostic_file_name = _DBOW_DIAGNOSTIC_FILE_NAME.format(
-                data_file_name[:-4],
+                dataset,
                 model_ver,
                 num_noise_words,
                 vec_dim,
@@ -58,7 +58,7 @@ def save_training_state(data_file_path,
                 lr)
         else:
             diagnostic_file_name = _DM_DIAGNOSTIC_FILE_NAME.format(
-                data_file_name[:-4],
+                dataset,
                 model_ver,
                 vec_combine_method,
                 context_size,
@@ -90,7 +90,7 @@ def save_training_state(data_file_path,
     # save the model
     if model_ver_is_dbow:
         model_file_name = _DBOW_MODEL_NAME.format(
-            data_file_name[:-4],
+            dataset,
             model_ver,
             num_noise_words,
             vec_dim,
@@ -98,7 +98,7 @@ def save_training_state(data_file_path,
             lr)
     else:
         model_file_name = _DM_MODEL_NAME.format(
-            data_file_name[:-4],
+            dataset,
             model_ver,
             context_size,
             num_noise_words,
