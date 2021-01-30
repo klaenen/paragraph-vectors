@@ -68,7 +68,7 @@ def export_word_vectors(data_file_path, model_file_name, kwargs):
         num_docs=len(dataset),
         num_words=len(dataset.fields['text'].vocab) - 1)
 
-    _write_wv_to_file(model, dataset)
+    return _write_wv_to_file(model, dataset)
 
 
 def _load_model(model_file_name, vec_dim, num_docs, num_words):
