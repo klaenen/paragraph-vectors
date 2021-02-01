@@ -126,7 +126,7 @@ def _write_wv_to_file(model, dataset):
     for word in dataset.fields['text'].vocab.stoi:
         idx = dataset.fields['text'].vocab.stoi[word] - 1
         vec = model._W[idx, :].detach().numpy()
-        word_feats[word] = vec
+        word_feats[word] = vec.tolist()
 
     return word_feats
 
