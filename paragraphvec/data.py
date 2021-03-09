@@ -28,7 +28,7 @@ def load_dataset(file_path, kwargs):
 
 def _tokenize_str(str_):
     # keep only alphanumeric and punctations
-    str_ = re.sub(r'[^A-Za-z0-9(),.!?\'`]', ' ', str_)
+    str_ = re.sub(r'[^A-Za-z0-9(),.!?\-\'`]', ' ', str_)
     # remove multiple whitespace characters
     str_ = re.sub(r'\s{2,}', ' ', str_)
     # punctations to tokens
